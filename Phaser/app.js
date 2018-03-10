@@ -106,8 +106,50 @@ function update(){
 		player.body.velocity.y = -300;
 	}
 
+	game.physics.arcade.overlap(player, stars, collectStar);
+	game.physics.arcade.overlap(player, enemy1, loseLife);
+
+	moveEnemy();
+
+	if(life =< 0){
+		endGame();
+	}
+
 }
 
+function endGame(){
+	scorelabel.text = "GAME OVER! You scored " + score;
+	player.kill();
+	scorenumber.visible = false;
+	lifelabel.visible = false;
+	lifenumber.visible = false;
+}
+
+function collectStar(player, star){
+	score += 1;
+	scorenumber.setText(score);
+
+	star.kill();
+	star.reset(Math.random()*750, 0);
+}
+
+function loseLife(player, enemy){
+	life -= 1;
+	lifenumber.setText(life);
+
+	enemy.kill();
+	enemy.reset(10,10);
+}
+
+function moveEnemy(){
+	if(enemy1.x > 760){
+		enemy1.animations.play('left');
+		enemy1.body.velocity.x = -120;
+	} else if(enemy1.x < 405){
+		enemy1.animations.play('right');
+		enemy1.body.velocity.x = 120;
+	}
+}
 
 
 
